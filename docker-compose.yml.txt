@@ -1,0 +1,32 @@
+---
+version: "3.2"
+
+services:
+
+  letsencrypt:
+    image: linuxserver/letsencrypt
+    container_name: letsencrypt
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/UTC
+      - URL=<URL>
+      - SUBDOMAINS=www,
+      - VALIDATION=http
+      - DNSPLUGIN=cloudflare #optional
+      - PROPAGATION= #optional
+      - DUCKDNSTOKEN= #optional
+      - EMAIL= #optional
+      - ONLY_SUBDOMAINS=false #optional
+      - EXTRA_DOMAINS= #optional
+      - STAGING=false #optional
+    volumes:
+      - ./letsencrypt:/config
+      - vol_nginx_logs:/config/log/nginx
+    ports:
+      - 443:443
+      - 80:80 #optional
+    restart: always
+
+volumes:
+   vol_nginx_logs:
